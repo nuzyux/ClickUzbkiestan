@@ -1,0 +1,6 @@
+{
+  "name": "Click Uzbekistan Clone",
+  "description": "A high-fidelity mobile web application replicating the Click Uzbekistan app interface with interactive custom payment management, push notification controls, and integrated Gemini AI features like intelligent search, high-level thinking assistance, and dynamic image generation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
