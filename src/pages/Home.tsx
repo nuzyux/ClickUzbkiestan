@@ -108,15 +108,14 @@ export default function HomePage({ onNavigate }: { onNavigate: (tab: Tab) => voi
           <div className="flex justify-between items-start mt-2">
             <div className="flex flex-col w-full">
               <span className="text-[#888888] text-[13px] font-normal tracking-wide">Total balance</span>
-              <div className="flex items-baseline gap-2 mt-0.5 group relative">
-                <input 
-                  type="text"
-                  value={totalBalance}
-                  onChange={(e) => setTotalBalance(e.target.value)}
-                  className="text-[34px] font-bold tracking-tight text-white leading-none bg-transparent outline-none w-[160px] border-b border-transparent focus:border-[#333] transition-colors"
+              <div className="flex flex-wrap items-baseline gap-2 mt-0.5 group">
+                <EditableBalance 
+                  value={totalBalance} 
+                  onChange={setTotalBalance} 
+                  className="text-[34px] font-bold tracking-tight text-white leading-none" 
                 />
-                <span className="text-xl font-medium text-white">UZS</span>
-                <Edit3 size={14} className="text-zinc-600 opacity-50 ml-1 absolute right-6 top-2" />
+                <span className="text-xl font-medium text-white shrink-0">UZS</span>
+                <Edit3 size={14} className="text-zinc-600 opacity-50 shrink-0" />
               </div>
             </div>
             <button className="text-zinc-500 hover:text-zinc-300 transition-colors mt-1 pr-1 shrink-0">
@@ -125,20 +124,19 @@ export default function HomePage({ onNavigate }: { onNavigate: (tab: Tab) => voi
           </div>
 
           <div className="mt-5 flex items-center justify-between">
-            <div className="flex flex-col gap-0.5 relative">
+            <div className="flex flex-col gap-0.5 relative max-w-[60%]">
               <span className="text-[13px] text-[#888888] font-normal">My wallet</span>
-              <div className="flex items-center gap-1.5 mt-1">
+              <div className="flex flex-wrap items-center gap-1.5 mt-1 group">
                 <div className="w-5 h-5 bg-[#007BFF] rounded-full flex items-center justify-center shrink-0">
                   <div className="w-2.5 h-2.5 bg-[#0a0a0a] rounded-full border border-[#007BFF]" />
                 </div>
-                <input 
-                  type="text"
-                  value={walletBalance}
-                  onChange={(e) => setWalletBalance(e.target.value)}
-                  className="font-bold text-[17px] text-white bg-transparent outline-none w-[60px] text-right border-b border-transparent focus:border-[#333] transition-colors"
+                <EditableBalance 
+                  value={walletBalance} 
+                  onChange={setWalletBalance} 
+                  className="font-bold text-[17px] text-white" 
                 />
-                <span className="font-normal text-[15px] text-white">UZS</span>
-                <Edit3 size={12} className="text-zinc-600 opacity-50 absolute right-[-20px]" />
+                <span className="font-normal text-[15px] text-white shrink-0">UZS</span>
+                <Edit3 size={12} className="text-zinc-600 opacity-50 shrink-0" />
               </div>
             </div>
 
@@ -377,4 +375,24 @@ function UsersIcon() {
       </div>
     </div>
   )
+}
+
+function EditableBalance({ value, onChange, className }: { value: string, onChange: (val: string) => void, className?: string }) {
+  const spanRef = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    if (spanRef.current && spanRef.current.textContent !== value) {
+      spanRef.current.textContent = value;
+    }
+  }, [value]);
+
+  return (
+    <span
+      ref={spanRef}
+      contentEditable
+      suppressContentEditableWarning
+      onInput={(e) => onChange(e.currentTarget.textContent || '')}
+      className={`outline-none border-b border-transparent focus:border-zinc-700 transition-colors max-w-full break-all ${className}`}
+    />
+  );
 }
